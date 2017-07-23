@@ -162,7 +162,11 @@ export class AureliaPlugin {
       // Note that code inside aurelia-loader-webpack performs PLATFORM.Loader = WebpackLoader;
       // Since this runs very early, before any other Aurelia code, we need "aurelia-polyfills"
       // for older platforms (e.g. `Map` is undefined in IE 10-).
-      this.addEntry(compiler.options, ["aurelia-polyfills", "aurelia-loader-webpack"]);      
+      let entries = ["aurelia-loader-webpack"];
+      if (features.polyfills !== "none") {
+        entries.unshift("aurelia-polyfills");
+      }
+      this.addEntry(compiler.options, entries);      
     }
 
     if (!opts.noHtmlLoader) {
